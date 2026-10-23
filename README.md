@@ -1,10 +1,10 @@
-## 🌐 Acesse o projeto
-
-**Aplicação online:** https://vertice-streaming.onrender.com
-
 # Vértice — Plataforma de Streaming
 
 Uma plataforma de streaming desenvolvida como projeto de portfólio Full Stack, com identidade visual própria e foco no aprendizado de desenvolvimento web com Python.
+
+## 🌐 Acesse o projeto
+
+**Aplicação online:** https://vertice-streaming.onrender.com
 
 ## Sobre o projeto
 
