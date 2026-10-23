@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Minha Lista | Vértice</title>
+
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/style.css') }}"
+    />
+  </head>
+
+  <body class="lista-page">
+    <header class="lista-navbar">
+      <a class="logo" href="{{ url_for('main.home') }}">
+        VÉRTICE<span>.</span>
+      </a>
+
+      <a class="lista-voltar" href="{{ url_for('main.home') }}">
+        ← Voltar ao catálogo
+      </a>
+    </header>
+
+    <main class="lista-container">
+      <section class="lista-intro">
+        <p class="eyebrow">SUA COLEÇÃO PESSOAL</p>
+
+        <h1>Minha Lista<span>.</span></h1>
+
+        <p>Seus próximos filmes favoritos estão aqui.</p>
+
+        {% with mensagens = get_flashed_messages(with_categories=true) %} {% for
+        categoria, mensagem in mensagens %}
+        <p class="flash-message flash-{{ categoria }}" role="status">
+          {{ mensagem }}
+        </p>
+        {% endfor %} {% endwith %}
+      </section>
+
+      {% if filmes %}
+      <section class="lista-grid" aria-label="Filmes salvos">
+        {% for filme in filmes %}
+        <article class="lista-card">
+          <div
+            class="lista-poster {% if filme.id == 'big-buck-bunny' %}poster-one {% elif filme.id == 'nosferatu' %}poster-two {% elif filme.id == 'cidade-lunar' %}poster-three {% elif filme.id == 'entre-mundos' %}poster-four {% elif filme.id == 'noite-eterna' %}poster-five {% elif filme.id == 'codigo-fantasma' %}poster-six {% else %}poster-three{% endif %}"
+          >
+            <span class="lista-poster-label">VÉRTICE ORIGINAL</span>
+
+            <div class="lista-poster-titulo">{{ filme.titulo }}</div>
+
+            <span class="lista-poster-id">V.</span>
+          </div>
+
+          <div class="lista-card-info">
+            <h2>{{ filme.titulo }}</h2>
+
+            <p>{{ filme.descricao }}</p>
+
+            <form
+              class="lista-remover-form"
+              action="{{ url_for('main.favoritar', filme_id=filme.id) }}"
+              method="POST"
+            >
+              <input
+                type="hidden"
+                name="csrf_token"
+                value="{{ csrf_token() }}"
+              />
+
+              <input type="hidden" name="origem" value="minha-lista" />
+
+              <button
+                type="submit"
+                class="lista-remover"
+                aria-label="Remover {{ filme.titulo }} da minha lista"
+              >
+                <span aria-hidden="true">♥</span>
+                Remover da lista
+              </button>
+            </form>
+          </div>
+        </article>
+        {% endfor %}
+      </section>
+      {% else %}
+      <section class="lista-vazia">
+        <span class="lista-vazia-icone" aria-hidden="true">♡</span>
+
+        <h2>Sua lista está vazia</h2>
+
+        <p>Explore o catálogo e salve os filmes que deseja assistir depois.</p>
+
+        <a class="button button-primary" href="{{ url_for('main.home') }}">
+          Explorar catálogo
+        </a>
+      </section>
+      {% endif %}
+    </main>
+
+    <footer class="lista-footer">
+      <p>VÉRTICE<span>.</span> — Histórias que permanecem.</p>
+    </footer>
+  </body>
+</html>

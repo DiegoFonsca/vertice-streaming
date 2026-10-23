@@ -1,0 +1,20 @@
+<form
+  class="favorite-form"
+  action="{{ url_for('main.favoritar', filme_id=filme_id) }}"
+  method="POST"
+>
+  <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+
+  <button
+    class="favorite-button"
+    type="submit"
+    aria-label="{{ 'Remover dos favoritos' if filme_id in favoritos_ids else 'Salvar para mais tarde' }}"
+    title="{{ 'Remover dos favoritos' if filme_id in favoritos_ids else 'Salvar para mais tarde' }}"
+  >
+    {{ "♥" if filme_id in favoritos_ids else "♡" }}
+    <span>
+      {{ "Salvo na minha lista" if filme_id in favoritos_ids else "Salvar para
+      mais tarde" }}
+    </span>
+  </button>
+</form>

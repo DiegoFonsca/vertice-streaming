@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Entrar | Vértice</title>
+
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/style.css') }}"
+    />
+  </head>
+
+  <body class="auth-page">
+    <a class="auth-logo" href="{{ url_for('main.home') }}">
+      VÉRTICE<span>.</span>
+    </a>
+
+    <main class="auth-container">
+      <section class="auth-card">
+        <p class="eyebrow">SUA PRÓXIMA HISTÓRIA COMEÇA AQUI</p>
+
+        <h1>Que bom ter você de volta.</h1>
+
+        <p class="auth-description">
+          Entre na sua conta e continue explorando o universo Vértice.
+        </p>
+
+        {% with mensagens = get_flashed_messages(with_categories=true) %} {% for
+        categoria, mensagem in mensagens %}
+        <p class="flash-message flash-{{ categoria }}" role="status">
+          {{ mensagem }}
+        </p>
+        {% endfor %} {% endwith %}
+
+        <form
+          class="auth-form"
+          action="{{ url_for('main.login') }}"
+          method="POST"
+        >
+          <!-- Token de proteção CSRF -->
+          <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+
+          <div class="form-group">
+            <label for="email">E-mail</label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              placeholder="voce@exemplo.com"
+              autocomplete="email"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="senha">Senha</label>
+            <input
+              type="password"
+              id="senha"
+              name="senha"
+              placeholder="Digite sua senha"
+              autocomplete="current-password"
+              required
+            />
+          </div>
+
+          <button class="auth-submit" type="submit">
+            Entrar na minha conta
+            <span aria-hidden="true">→</span>
+          </button>
+        </form>
+
+        <p class="auth-register">
+          Ainda não tem uma conta?
+          <a href="{{ url_for('main.criar_conta') }}">Criar conta</a>
+        </p>
+
+        <a class="auth-back" href="{{ url_for('main.home') }}">
+          ← Voltar para a página inicial
+        </a>
+      </section>
+    </main>
+  </body>
+</html>

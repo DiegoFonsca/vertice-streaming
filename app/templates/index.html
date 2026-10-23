@@ -1,0 +1,317 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Vértice — Histórias que ficam</title>
+
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/style.css') }}"
+    />
+
+    <script src="{{ url_for('static', filename='js/main.js') }}" defer></script>
+  </head>
+
+  <body>
+    <header class="navbar">
+      <a class="logo" href="#inicio">VÉRTICE<span>.</span></a>
+
+      <nav class="nav-links" aria-label="Navegação principal">
+        <a href="#inicio">Início</a>
+        <a href="#catalogo">Filmes</a>
+        <a href="#catalogo">Séries</a>
+        <a href="{{ url_for('main.minha_lista') }}">Minha lista</a>
+
+        {% if usuario %}
+        <div class="user-menu">
+          <span class="user-greeting"> Olá, {{ usuario.nome }}! </span>
+
+          <form
+            class="logout-form"
+            action="{{ url_for('main.logout') }}"
+            method="POST"
+          >
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+
+            <button class="logout-button" type="submit">Sair</button>
+          </form>
+        </div>
+        {% else %}
+        <a href="{{ url_for('main.criar_conta') }}">Criar conta</a>
+        <a href="{{ url_for('main.login') }}">Entrar</a>
+        {% endif %}
+      </nav>
+
+      <label class="search-box">
+        <span aria-hidden="true">⌕</span>
+
+        <input
+          id="searchInput"
+          type="search"
+          placeholder="Buscar títulos..."
+          aria-label="Buscar filmes"
+        />
+      </label>
+    </header>
+
+    <main>
+      {% with mensagens = get_flashed_messages(with_categories=true) %} {% for
+      categoria, mensagem in mensagens %}
+      <div class="flash-message flash-{{ categoria }}" role="status">
+        {{ mensagem }}
+      </div>
+      {% endfor %} {% endwith %}
+
+      <!-- BANNER PRINCIPAL -->
+      <section class="hero" id="inicio">
+        <div class="hero-content">
+          <p class="eyebrow">VÉRTICE ORIGINAL</p>
+
+          <h1>Além do<br />Horizonte</h1>
+
+          <div class="hero-meta">
+            <span>2026</span>
+            <span>Ficção científica</span>
+            <span>16+</span>
+          </div>
+
+          <p class="hero-description">
+            Quando um sinal misterioso chega de uma região desconhecida do
+            universo, uma equipe precisa descobrir se a humanidade está
+            realmente sozinha.
+          </p>
+
+          <div class="hero-actions">
+            <button class="button button-primary" id="watchButton">
+              <span aria-hidden="true">▶</span>
+              Assistir trailer
+            </button>
+
+            <a class="button button-secondary" href="#catalogo">
+              Explorar catálogo
+            </a>
+          </div>
+        </div>
+
+        <div class="hero-overlay"></div>
+      </section>
+
+      <!-- CATÁLOGO DE FILMES -->
+      <section class="catalog-section" id="catalogo">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">SELEÇÃO VÉRTICE</p>
+            <h2>Descubra sua próxima história</h2>
+          </div>
+
+          <span class="catalog-count" id="catalogCount"> 11 títulos </span>
+        </div>
+
+        <div class="movie-grid" id="movieGrid">
+          <!-- FILME 1: BIG BUCK BUNNY -->
+          <article class="movie-card" data-title="Big Buck Bunny">
+            <a
+              class="movie-link"
+              href="{{ url_for('main.assistir') }}"
+              aria-label="Assistir Big Buck Bunny"
+            >
+              <div class="movie-poster poster-one">
+                <span class="poster-category">ANIMAÇÃO</span>
+                <span class="poster-title">BIG BUCK<br />BUNNY</span>
+              </div>
+
+              <div class="movie-info">
+                <h3>Big Buck Bunny</h3>
+                <p>2008 · Animação / Comédia</p>
+                <span class="watch-label">▶ Assistir filme</span>
+              </div>
+            </a>
+
+            {% set filme_id = "big-buck-bunny" %} {% include
+            "_botao_favorito.html" %}
+          </article>
+
+          <!-- FILME 2: NOSFERATU -->
+          <article class="movie-card" data-title="Nosferatu">
+            <a
+              class="movie-link"
+              href="{{ url_for('main.nosferatu') }}"
+              aria-label="Assistir Nosferatu"
+            >
+              <div class="movie-poster poster-two">
+                <span class="poster-category">TERROR</span>
+                <span class="poster-title">NOSFERATU</span>
+              </div>
+
+              <div class="movie-info">
+                <h3>Nosferatu</h3>
+                <p>1922 · Terror / Suspense</p>
+                <span class="watch-label">▶ Assistir filme</span>
+              </div>
+            </a>
+
+            {% set filme_id = "nosferatu" %} {% include "_botao_favorito.html"
+            %}
+          </article>
+
+          <!-- FILME 3: CIDADE LUNAR -->
+          <article class="movie-card" data-title="Cidade Lunar">
+            <div class="movie-poster poster-two">
+              <span class="poster-category">SCI-FI</span>
+              <span class="poster-title">CIDADE<br />LUNAR</span>
+            </div>
+
+            <div class="movie-info">
+              <h3>Cidade Lunar</h3>
+              <p>2026 · Ficção científica</p>
+            </div>
+
+            {% set filme_id = "cidade-lunar" %} {% include
+            "_botao_favorito.html" %}
+          </article>
+
+          <!-- FILME 4: ENTRE MUNDOS -->
+          <article class="movie-card" data-title="Entre Mundos">
+            <div class="movie-poster poster-three">
+              <span class="poster-category">AVENTURA</span>
+              <span class="poster-title">ENTRE<br />MUNDOS</span>
+            </div>
+
+            <div class="movie-info">
+              <h3>Entre Mundos</h3>
+              <p>2024 · Aventura</p>
+            </div>
+
+            {% set filme_id = "entre-mundos" %} {% include
+            "_botao_favorito.html" %}
+          </article>
+
+          <!-- FILME 5: NOITE ETERNA -->
+          <article class="movie-card" data-title="Noite Eterna">
+            <div class="movie-poster poster-four">
+              <span class="poster-category">DRAMA</span>
+              <span class="poster-title">NOITE<br />ETERNA</span>
+            </div>
+
+            <div class="movie-info">
+              <h3>Noite Eterna</h3>
+              <p>2025 · Drama</p>
+            </div>
+
+            {% set filme_id = "noite-eterna" %} {% include
+            "_botao_favorito.html" %}
+          </article>
+
+          <!-- FILME 6: CÓDIGO FANTASMA -->
+          <article class="movie-card" data-title="Código Fantasma">
+            <div class="movie-poster poster-five">
+              <span class="poster-category">AÇÃO</span>
+              <span class="poster-title">CÓDIGO<br />FANTASMA</span>
+            </div>
+
+            <div class="movie-info">
+              <h3>Código Fantasma</h3>
+              <p>2026 · Ação</p>
+            </div>
+
+            {% set filme_id = "codigo-fantasma" %} {% include
+            "_botao_favorito.html" %}
+          </article>
+
+          <!-- FILME 7: OCEANO AZUL -->
+          <article class="movie-card" data-title="Oceano Azul">
+            <div class="movie-poster poster-six">
+              <span class="poster-category">DRAMA</span>
+              <span class="poster-title">OCEANO<br />AZUL</span>
+            </div>
+
+            <div class="movie-info">
+              <h3>Oceano Azul</h3>
+              <p>2024 · Drama</p>
+            </div>
+
+            {% set filme_id = "oceano-azul" %} {% include "_botao_favorito.html"
+            %}
+          </article>
+
+          <!-- FILME 8: INTERESTELAR -->
+          <article class="movie-card" data-title="Interestelar">
+            <div class="movie-poster poster-one">
+              <span class="poster-category">FICÇÃO CIENTÍFICA</span>
+              <span class="poster-title">INTERESTELAR</span>
+            </div>
+
+            <div class="movie-info">
+              <h3>Interestelar</h3>
+              <p>2014 · Ficção científica / Drama</p>
+            </div>
+
+            {% set filme_id = "interestelar" %} {% include
+            "_botao_favorito.html" %}
+          </article>
+
+          <!-- FILME 9: A ORIGEM -->
+          <article class="movie-card" data-title="A Origem">
+            <div class="movie-poster poster-three">
+              <span class="poster-category">SUSPENSE</span>
+              <span class="poster-title">A ORIGEM</span>
+            </div>
+
+            <div class="movie-info">
+              <h3>A Origem</h3>
+              <p>2010 · Ficção científica / Suspense</p>
+            </div>
+
+            {% set filme_id = "a-origem" %} {% include "_botao_favorito.html" %}
+          </article>
+
+          <!-- FILME 10: MATRIX -->
+          <article class="movie-card" data-title="Matrix">
+            <div class="movie-poster poster-four">
+              <span class="poster-category">AÇÃO</span>
+              <span class="poster-title">MATRIX</span>
+            </div>
+
+            <div class="movie-info">
+              <h3>Matrix</h3>
+              <p>1999 · Ação / Ficção científica</p>
+            </div>
+
+            {% set filme_id = "matrix" %} {% include "_botao_favorito.html" %}
+          </article>
+
+          <!-- FILME 11: BLADE RUNNER 2049 -->
+          <article class="movie-card" data-title="Blade Runner 2049">
+            <div class="movie-poster poster-six">
+              <span class="poster-category">FUTURO DISTÓPICO</span>
+              <span class="poster-title">BLADE<br />RUNNER 2049</span>
+            </div>
+
+            <div class="movie-info">
+              <h3>Blade Runner 2049</h3>
+              <p>2017 · Ficção científica / Drama</p>
+            </div>
+
+            {% set filme_id = "blade-runner-2049" %} {% include
+            "_botao_favorito.html" %}
+          </article>
+        </div>
+
+        <p class="empty-message" id="emptyMessage" hidden>
+          Nenhum título encontrado.
+        </p>
+      </section>
+    </main>
+
+    <!-- RODAPÉ -->
+    <footer class="footer">
+      <a class="logo" href="#inicio">VÉRTICE<span>.</span></a>
+
+      <p>Histórias que ficam. Uma experiência criada por nós.</p>
+
+      <p class="copyright">Projeto de portfólio · 2026</p>
+    </footer>
+  </body>
+</html>

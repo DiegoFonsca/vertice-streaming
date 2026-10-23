@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Big Buck Bunny | Vértice</title>
+
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/style.css') }}"
+    />
+  </head>
+
+  <body class="auth-page">
+    <a class="auth-logo" href="{{ url_for('main.home') }}">
+      VÉRTICE<span>.</span>
+    </a>
+
+    <main class="auth-container">
+      <section class="auth-card">
+        <p class="eyebrow">VÉRTICE CINEMA</p>
+
+        <h1>Big Buck Bunny</h1>
+
+        <p class="auth-description">
+          Uma aventura animada da Blender Foundation.
+        </p>
+
+        <div class="video-container">
+          <iframe
+            src="https://www.youtube.com/embed/aqz-KE-bpKQ"
+            title="Big Buck Bunny — Blender Foundation"
+            allow="
+              accelerometer;
+              autoplay;
+              clipboard-write;
+              encrypted-media;
+              gyroscope;
+              picture-in-picture;
+              web-share;
+            "
+            referrerpolicy="strict-origin-when-cross-origin"
+            allowfullscreen
+          ></iframe>
+        </div>
+
+        <p class="auth-description">
+          Curta-metragem produzido pela Blender Foundation.
+        </p>
+
+        <p class="auth-back">
+          <a href="{{ url_for('main.home') }}"> ← Voltar ao catálogo </a>
+        </p>
+      </section>
+    </main>
+  </body>
+</html>
